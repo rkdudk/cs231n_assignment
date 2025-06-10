@@ -1,0 +1,30 @@
+# pytorch101
+
+## 인덱스 slicing 과 범위 slicing
+- 단일 인덱스로 슬라이싱 : (e.g., x[-1, :] 또는 x[:, 2]) → 차원 축소 (1차원 반환)
+- 범위 슬라이싱 : (e.g., x[-1:, :] 또는 x[:, 2:3]) → 차원 유지 (2차원 반환)
+
+## view와 reshape의 차점
+- view
+ex)
+x = torch.randn(2, 3)
+y = x.t()  # 전치(transpose) → non-contiguous
+z = y.contiguous().view(6)  # 필수!
+
+view(-1, 1) : 1d vetor를 세로 방향으로 바꾸기
+
+- reshape : view() + contiguous()를 한 번에 수행하는 편의 기능
+
+## torch.bmm
+- 3D 행렬 자동 계산해줌
+
+
+## Broadcasting : 두 tensor의 shape이 다를 때도, 연산이 가능하도록 작은 tensor를 자동으로 복제 (expand) 하여 큰 tensor에 맞춤.
+- Broadcasting 규칙
+두 텐서의 shape이 다르면:
+1. 뒤에서부터(오른쪽에서부터) 차원을 비교
+2. 차원이 같거나 한쪽이 1이면 → 브로드캐스트 가능, 가장 큰 값 택하기 
+3. 그렇지 않으면 → 오류 발생
+
+- 브로드캐스팅은 복제되지 않고 그렇게 행동하는 것처럼 연산만 최적화해서 해주는 것이기 때문에 효율적
+
